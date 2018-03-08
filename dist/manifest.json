@@ -5,12 +5,9 @@
 
   "description": "This add-on allow you to operate twitter from smart location bar",
 
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["main.js"],
-      "run_at": "document_end",
-      "match_about_blank": true
-    }
-  ]
+  "background": {
+    "scripts": ["main.js"]
+  },
+
+  "omnibox": { "keyword" : "atw" }
 }

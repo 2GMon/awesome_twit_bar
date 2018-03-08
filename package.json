@@ -4,7 +4,7 @@
   "description": "This is a Firefox add-on which allow you to operate twitter from smart location bar",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack --mode development",
+    "dev": "webpack --mode development --devtool inline-cheap-source-map",
     "build": "webpack --mode production"
   },
   "keywords": [],
