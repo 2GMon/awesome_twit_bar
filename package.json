@@ -1,0 +1,17 @@
+{
+  "name": "awesome_tweet_bar",
+  "version": "0.0.1",
+  "description": "This is a Firefox add-on which allow you to operate twitter from smart location bar",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production"
+  },
+  "keywords": [],
+  "author": "2GMon",
+  "license": "MIT",
+  "devDependencies": {
+    "webpack": "^4.1.1",
+    "webpack-cli": "^2.0.10"
+  }
+}
