@@ -1,6 +1,6 @@
 'use strict';
 
-import { getMatchingAuthCommand } from './auth';
+import { getMatchingCommand } from './cmd';
 
 browser.omnibox.setDefaultSuggestion({
   description: `Tweet (e.g. "hello world")`
@@ -11,7 +11,7 @@ browser.omnibox.setDefaultSuggestion({
 browser.omnibox.onInputChanged.addListener((text, addSuggestions) => {
   if (text[0] == '!') {
     console.log("commands: " + text);
-    addSuggestions(getMatchingAuthCommand(text));
+    addSuggestions(getMatchingCommand(text));
   } else {
     console.log("tweet: " + text);
   }
@@ -19,7 +19,11 @@ browser.omnibox.onInputChanged.addListener((text, addSuggestions) => {
 
 // Open the page based on how the user clicks on a suggestion.
 browser.omnibox.onInputEntered.addListener((text, disposition) => {
+  text = text.trim();
   switch (text) {
+    case "!":
+      openLink("https://google.com", disposition);
+      break;
     case "!getPIN":
       openLink("https://www.google.co.jp", disposition);
       break;
