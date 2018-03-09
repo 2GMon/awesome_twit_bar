@@ -1,24 +1,11 @@
 'use strict';
 
+import { getMatchingAuthCommand } from './auth';
+
 browser.omnibox.setDefaultSuggestion({
   description: `Tweet (e.g. "hello world")`
 });
 
-const authCommands = [
-  {content: "!getPIN", description: "Opens the page to authorize Awesome Twit Bar and get your PIN from Twitter."},
-  {content: "!setPIN", description: "Allows Awesome Twit Bar to access Twitter by signifying your PIN."}
-];
-
-function getMatchingAuthCommand(input) {
-  var result = [];
-  for (let cmd of authCommands) {
-    if (cmd.content.indexOf(input) === 0) {
-      console.log(cmd);
-      result.push(cmd);
-    }
-  }
-  return result;
-}
 
 // Update the suggestions whenever the input is changed.
 browser.omnibox.onInputChanged.addListener((text, addSuggestions) => {
