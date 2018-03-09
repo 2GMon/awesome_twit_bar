@@ -22,7 +22,14 @@ browser.omnibox.onInputEntered.addListener((text, disposition) => {
   text = text.trim();
   switch (text) {
     case "!":
-      openLink("https://google.com", disposition);
+      var createData = {
+        type: "detached_panel",
+        url: "timeline.html",
+        width: 480,
+        height: 640
+      };
+      var creating = browser.windows.create(createData);
+      creating.then(onCreated, onError);
       break;
     case "!getPIN":
       openLink("https://www.google.co.jp", disposition);
@@ -45,4 +52,12 @@ function openLink(url, disposition) {
       browser.tabs.create({url, active: false});
       break;
   }
+}
+
+function onCreated(windowInfo) {
+  console.log(`Created window: ${windowInfo.id}`);
+}
+
+function onError(error) {
+  console.log(`Error: ${error}`);
 }

@@ -18,4 +18,4 @@ typing command in the smart location bar.
 
 ### Show
 
-* `atw` Shows your timeline.
+* `atw !` Shows your timeline.
