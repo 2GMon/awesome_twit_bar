@@ -1,7 +1,8 @@
 module.exports = {
   entry: {
     main: './src/main.js',
-    timeline: './src/timeline.js'
+    timeline: './src/timeline.js',
+    options: './src/options.js'
   },
 
   output: {

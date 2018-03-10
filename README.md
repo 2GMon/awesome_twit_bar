@@ -11,11 +11,6 @@ Awesome Twit Bar pays respect to [Twittperator](https://github.com/vimpr/vimpera
 
 typing command in the smart location bar.
 
-### Auth
-
-* `atw !getPIN` Opens the page to authorize Awesome Twit Bar and get your PIN from Twitter.
-* `atw !setPIN` Allows Awesome Twit Bar to access Twitter by signifying your PIN.
-
 ### Show
 
 * `atw !` Shows your timeline.

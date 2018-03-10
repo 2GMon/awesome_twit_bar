@@ -31,12 +31,6 @@ browser.omnibox.onInputEntered.addListener((text, disposition) => {
       var creating = browser.windows.create(createData);
       creating.then(onCreated, onError);
       break;
-    case "!getPIN":
-      openLink("https://www.google.co.jp", disposition);
-      break;
-    case "!setPIN":
-      console.log("hoge aaa");
-      break;
   }
 });
 

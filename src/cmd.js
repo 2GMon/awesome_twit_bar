@@ -2,8 +2,6 @@
 
 const commands = [
   {content: "! ", description: "Opens your timeline page."},
-  {content: "!getPIN", description: "Opens the page to authorize Awesome Twit Bar and get your PIN from Twitter."},
-  {content: "!setPIN", description: "Allows Awesome Twit Bar to access Twitter by signifying your PIN."}
 ];
 
 export function getMatchingCommand(input) {
