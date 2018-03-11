@@ -2,6 +2,8 @@
 
 import { getMatchingCommand } from './cmd';
 
+import { OAuth } from 'oauth';
+
 browser.omnibox.setDefaultSuggestion({
   description: `Tweet (e.g. "hello world")`
 });
@@ -22,6 +24,7 @@ browser.omnibox.onInputEntered.addListener((text, disposition) => {
   text = text.trim();
   switch (text) {
     case "!":
+      getHomeTimeline();
       var createData = {
         type: "detached_panel",
         url: "timeline.html",
@@ -54,4 +57,25 @@ function onCreated(windowInfo) {
 
 function onError(error) {
   console.log(`Error: ${error}`);
+}
+
+function getHomeTimeline() {
+  var oauth = new OAuth(
+    'https://api.twitter.com/oauth/request_token',
+    'https://api.twitter.com/oauth/access_token',
+    'iTbIWCEeWJnOxNnqfU8ZnA',
+    '2cK0UZmIuwtAaoeJ02Rd6dADjy6nrMp8Zd0tHbaR0',
+    '1.0A',
+    null,
+    'HMAC-SHA1'
+  );
+  oauth.get(
+    'https://api.twitter.com/1.1/statuses/home_timeline.json',
+    localStorage.getItem('atw.accessTokenKey'),
+    localStorage.getItem('atw.accessTokenSecret'),
+    function (e, data, res){
+      if (e) console.error(e);
+      console.log(require('util').inspect(data));
+      done();
+    });
 }
