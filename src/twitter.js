@@ -15,15 +15,12 @@ class Twitter {
     );
   }
 
-  getHomeTimeline() {
+  getHomeTimeline(callback) {
     this.Tw.get(
       'https://api.twitter.com/1.1/statuses/home_timeline.json',
       localStorage.getItem('atw.accessTokenKey'),
       localStorage.getItem('atw.accessTokenSecret'),
-      function (e, data, res){
-        if (e) console.error(e);
-        console.log(require('util').inspect(data));
-      });
+      callback);
   }
 }
 

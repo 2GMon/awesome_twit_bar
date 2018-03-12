@@ -23,7 +23,7 @@ browser.omnibox.onInputEntered.addListener((text, disposition) => {
   text = text.trim();
   switch (text) {
     case "!":
-      Tw.getHomeTimeline();
+      Tw.getHomeTimeline(homeTimelineCallback);
       var createData = {
         type: "detached_panel",
         url: "timeline.html",
@@ -56,4 +56,9 @@ function onCreated(windowInfo) {
 
 function onError(error) {
   console.log(`Error: ${error}`);
+}
+
+function homeTimelineCallback(e, data, res) {
+  if (e) console.error(e);
+  console.log(require('util').inspect(data));
 }
