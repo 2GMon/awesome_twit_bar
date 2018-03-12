@@ -1,19 +1,25 @@
 <template>
   <div id="app">
     <h1>{{ msg }}</h1>
+    <div v-for="tw in tweets">
+      {{ tw.text }}
+    </div>
   </div>
 </template>
 
 <script>
+var data = {
+  msg: 'Timeline Viewer',
+  tweets: []
+};
 export default {
   name: 'app',
   data () {
-    return {
-      msg: 'Timeline Viewer'
-    }
+    return data;
   },
   mounted () {
       firefox57_workaround_for_blank_panel();
+      getHomeTimeline();
   }
 }
 
@@ -32,6 +38,22 @@ function firefox57_workaround_for_blank_panel () {
     };
     browser. windows. update (currentWindow. id, updateInfo);
   });
+}
+
+function handleHomeTimelineResponse(message) {
+  data.tweets = JSON.parse(message.data);
+  console.log(data.tweets);
+}
+
+function handleError(error) {
+  console.log(`Error: ${error}`);
+}
+
+function getHomeTimeline() {
+  var sending = browser.runtime.sendMessage({
+    type: "get_home_timeline"
+  });
+  sending.then(handleHomeTimelineResponse, handleError);
 }
 </script>
 

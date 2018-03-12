@@ -3,10 +3,11 @@
 import { getMatchingCommand } from './cmd';
 import { Tw } from './twitter';
 
+var timeline = [];
+
 browser.omnibox.setDefaultSuggestion({
   description: `Tweet (e.g. "hello world")`
 });
-
 
 // Update the suggestions whenever the input is changed.
 browser.omnibox.onInputChanged.addListener((text, addSuggestions) => {
@@ -60,5 +61,12 @@ function onError(error) {
 
 function homeTimelineCallback(e, data, res) {
   if (e) console.error(e);
-  console.log(require('util').inspect(data));
+  timeline = data;
 }
+
+function handleMessage(request, sender, sendResponse) {
+  console.log("Message from the timeline: request type = " + request.type);
+  sendResponse({data: timeline});
+}
+
+browser.runtime.onMessage.addListener(handleMessage);
