@@ -1,8 +1,17 @@
 <template>
   <div id="app">
     <h1>{{ msg }}</h1>
-    <div v-for="tw in tweets">
+    <div class="tweet" v-for="tw in tweets">
+      <div class="tweet-header">
+        <div class="user">
+          <div class="user-name">{{ tw.user.name }}</div>
+          <div class="screen-name">@{{ tw.user.screen_name }}</div>
+        </div>
+        <div class="time">{{ tw.created_at }}</div>
+      </div>
+      <div class="text">
       {{ tw.text }}
+      </div>
     </div>
   </div>
 </template>
@@ -20,8 +29,7 @@ export default {
   mounted () {
       firefox57_workaround_for_blank_panel();
       getHomeTimeline();
-  }
-}
+  }}
 
 function firefox57_workaround_for_blank_panel () {
   // browser. windows. create () displays blank windows (panel, popup or detached_panel)
@@ -58,15 +66,36 @@ function getHomeTimeline() {
 </script>
 
 <style>
+body {
+  background-color: #e6ecf0;
+}
+
 #app {
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
-
 
 h1, h2 {
   font-weight: normal;
+}
+
+.tweet {
+  text-align: left;
+  margin-top: 5px;
+  background-color: #ffffff;
+}
+
+.tweet-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.user {
+  display: flex;
+}
+
+.screen_name {
+  margin-left: 10px;
 }
 </style>
 

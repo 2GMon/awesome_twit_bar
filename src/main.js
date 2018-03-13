@@ -28,8 +28,8 @@ browser.omnibox.onInputEntered.addListener((text, disposition) => {
       var createData = {
         type: "detached_panel",
         url: "timeline.html",
-        width: 480,
-        height: 640
+        width: 600,
+        height: 800
       };
       var creating = browser.windows.create(createData);
       creating.then(onCreated, onError);
