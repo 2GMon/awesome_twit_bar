@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h1>{{ msg }}</h1>
+    <div>Esc: close window</div>
     <div class="tweet" v-for="tw in tweets">
       <div class="tweet-header">
         <div class="user">
@@ -29,6 +29,8 @@ export default {
   mounted () {
       firefox57_workaround_for_blank_panel();
       getHomeTimeline();
+
+      addKeyboardEventListener();
   }}
 
 function firefox57_workaround_for_blank_panel () {
@@ -62,6 +64,22 @@ function getHomeTimeline() {
     type: "get_home_timeline"
   });
   sending.then(handleHomeTimelineResponse, handleError);
+}
+
+function closeWindow() {
+  let winId = browser.windows.WINDOW_ID_CURRENT;
+  console.log("removing window id = " + winId);
+  browser.windows.remove(winId);
+}
+
+function addKeyboardEventListener() {
+  document.addEventListener('keydown', (event) => {
+    const keyName = event.key;
+
+    if (keyName === 'Escape') {
+      closeWindow();
+    }
+  }, false);
 }
 </script>
 
