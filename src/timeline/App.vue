@@ -51,8 +51,8 @@ function firefox57_workaround_for_blank_panel () {
 }
 
 function handleHomeTimelineResponse(message) {
-  data.tweets = JSON.parse(message.data);
-  console.log(JSON.parse(message.data));
+  data.tweets = message.data;
+  console.log(message.data);
 }
 
 function handleError(error) {

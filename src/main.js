@@ -64,7 +64,7 @@ function onError(error) {
 
 function homeTimelineCallback(e, data, res) {
   if (e) console.error(e);
-  timeline = data;
+  timeline = JSON.parse(data);
 }
 
 function handleMessage(request, sender, sendResponse) {
