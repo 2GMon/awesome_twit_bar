@@ -22,6 +22,22 @@ class Twitter {
       localStorage.getItem('atw.accessTokenSecret'),
       callback);
   }
+
+  tweet(text) {
+    this.Tw.post(
+      "https://api.twitter.com/1.1/statuses/update.json",
+      localStorage.getItem('atw.accessTokenKey'),
+      localStorage.getItem('atw.accessTokenSecret'),
+      {"status": text},
+      function(error, data) {
+        if(error) {
+          console.log(error);
+        } else {
+          console.log(data);
+        }
+      }
+    )
+  }
 }
 
 export const Tw = new Twitter();

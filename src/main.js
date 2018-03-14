@@ -34,6 +34,9 @@ browser.omnibox.onInputEntered.addListener((text, disposition) => {
       var creating = browser.windows.create(createData);
       creating.then(onCreated, onError);
       break;
+    default:
+      Tw.tweet(text);
+      break;
   }
 });
 
