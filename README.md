@@ -14,3 +14,17 @@ typing command in the smart location bar.
 ### Show
 
 * `atw !` Shows your timeline.
+
+## Development builds
+
+```
+npm i -D
+npm run dev
+```
+
+## Production builds
+
+```
+npm i -D
+npm run build
+```
