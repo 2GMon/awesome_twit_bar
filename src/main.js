@@ -64,7 +64,10 @@ function onError(error) {
 
 function homeTimelineCallback(e, data, res) {
   if (e) console.error(e);
-  timeline = JSON.parse(data);
+  timeline = JSON.parse(data).map(t => {
+    t["created_at"] = (new Date(t["created_at"])).toLocaleString();
+    return t;
+  });
 }
 
 function handleMessage(request, sender, sendResponse) {
