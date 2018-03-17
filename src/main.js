@@ -64,10 +64,13 @@ function onError(error) {
 
 function homeTimelineCallback(e, data, res) {
   if (e) console.error(e);
-  timeline = JSON.parse(data).map(t => {
+  let fetched = JSON.parse(data).map(t => {
     t["created_at"] = (new Date(t["created_at"])).toLocaleString();
     return t;
   });
+  timeline = fetched.concat(timeline).slice(0, 100);
+
+  Tw.latestId = timeline[0].id;
 }
 
 function handleMessage(request, sender, sendResponse) {

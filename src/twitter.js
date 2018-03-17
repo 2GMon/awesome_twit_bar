@@ -13,12 +13,18 @@ class Twitter {
       null,
       'HMAC-SHA1'
     );
+
+    this.latestId = null;
   }
 
   getHomeTimeline(callback, count = 50) {
     const url = Twitter.API_ENDPOINT + 'statuses/home_timeline.json';
+    let params = "?count=" + count;
+    if(this.latestId != null) {
+      params += "&since_id=" + this.latestId;
+    }
     this.Tw.get(
-      url + "?count=" + count,
+      url + params,
       localStorage.getItem('atw.accessTokenKey'),
       localStorage.getItem('atw.accessTokenSecret'),
       callback);
