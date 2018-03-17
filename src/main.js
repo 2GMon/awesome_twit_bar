@@ -69,6 +69,8 @@ function homeTimelineCallback(e, data, res) {
     return t;
   });
   timeline = fetched.concat(timeline).slice(0, 100);
+  console.log(fetched);
+  console.log(timeline);
 
   Tw.latestId = timeline[0].id;
 }

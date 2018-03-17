@@ -52,7 +52,6 @@ function firefox57_workaround_for_blank_panel () {
 
 function handleHomeTimelineResponse(message) {
   data.tweets = message.data;
-  console.log(message.data);
 }
 
 function handleError(error) {
