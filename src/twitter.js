@@ -15,10 +15,10 @@ class Twitter {
     );
   }
 
-  getHomeTimeline(callback) {
+  getHomeTimeline(callback, count = 50) {
     const url = Twitter.API_ENDPOINT + 'statuses/home_timeline.json';
     this.Tw.get(
-      url,
+      url + "?count=" + count,
       localStorage.getItem('atw.accessTokenKey'),
       localStorage.getItem('atw.accessTokenSecret'),
       callback);
