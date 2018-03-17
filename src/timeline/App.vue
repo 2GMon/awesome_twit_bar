@@ -4,6 +4,7 @@
     <div class="tweet" v-for="tw in tweets">
       <div class="tweet-header">
         <div class="user">
+          <div class="profile-img"><img v-bind:src="tw.user.profile_image_url_https"></div>
           <div class="user-name">{{ tw.user.name }}</div>
           <div class="screen-name">@{{ tw.user.screen_name }}</div>
         </div>
@@ -109,6 +110,11 @@ h1, h2 {
 
 .user {
   display: flex;
+}
+
+.profile-img img {
+  width: 16px;
+  height: 16px;
 }
 
 .screen_name {
