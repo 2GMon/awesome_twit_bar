@@ -16,16 +16,18 @@ class Twitter {
   }
 
   getHomeTimeline(callback) {
+    const url = Twitter.API_ENDPOINT + 'statuses/home_timeline.json';
     this.Tw.get(
-      'https://api.twitter.com/1.1/statuses/home_timeline.json',
+      url,
       localStorage.getItem('atw.accessTokenKey'),
       localStorage.getItem('atw.accessTokenSecret'),
       callback);
   }
 
   tweet(text) {
+    const url = Twitter.API_ENDPOINT + 'statuses/update.json';
     this.Tw.post(
-      "https://api.twitter.com/1.1/statuses/update.json",
+      url,
       localStorage.getItem('atw.accessTokenKey'),
       localStorage.getItem('atw.accessTokenSecret'),
       {"status": text},
@@ -39,5 +41,6 @@ class Twitter {
     )
   }
 }
+Twitter.API_ENDPOINT = "https://api.twitter.com/1.1/";
 
 export const Tw = new Twitter();
