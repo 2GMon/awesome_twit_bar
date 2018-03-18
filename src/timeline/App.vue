@@ -3,11 +3,7 @@
     <div>Esc: close window</div>
     <div class="tweet" v-for="tw in tweets">
       <div class="tweet-header">
-        <div class="user">
-          <div class="profile-img"><img v-bind:src="tw.user.profile_image_url_https"></div>
-          <div class="user-name">{{ tw.user.name }}</div>
-          <div class="screen-name">@{{ tw.user.screen_name }}</div>
-        </div>
+        <User :user="tw.user"/>
         <div class="time">{{ tw.created_at }}</div>
       </div>
       <div class="text">
@@ -18,6 +14,8 @@
 </template>
 
 <script>
+import User from "./User.vue"
+
 var data = {
   msg: 'Timeline Viewer',
   tweets: []
@@ -26,6 +24,9 @@ export default {
   name: 'app',
   data () {
     return data;
+  },
+  components: {
+    User,
   },
   mounted () {
       firefox57_workaround_for_blank_panel();
@@ -106,19 +107,6 @@ h1, h2 {
 .tweet-header {
   display: flex;
   justify-content: space-between;
-}
-
-.user {
-  display: flex;
-}
-
-.profile-img img {
-  width: 16px;
-  height: 16px;
-}
-
-.screen_name {
-  margin-left: 10px;
 }
 </style>
 
