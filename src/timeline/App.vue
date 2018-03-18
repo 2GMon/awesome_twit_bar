@@ -2,12 +2,15 @@
   <div id="app">
     <div>Esc: close window</div>
     <div class="tweet" v-for="tw in tweets">
-      <div class="tweet-header">
-        <User :user="tw.user"/>
-        <div class="time">{{ tw.created_at }}</div>
-      </div>
-      <div class="text">
-      {{ tw.text }}
+      <div class="profile-img"><img v-bind:src="tw.user.profile_image_url_https"></div>
+      <div class="tweet-container">
+        <div class="tweet-header">
+          <User :user="tw.user"/>
+          <div class="time">{{ tw.created_at }}</div>
+        </div>
+        <div class="text">
+        {{ tw.text }}
+        </div>
       </div>
     </div>
   </div>
@@ -102,11 +105,27 @@ h1, h2 {
   text-align: left;
   margin-top: 5px;
   background-color: #ffffff;
+  display: flex;
+}
+
+.profile-img img {
+  width: 32px;
+  height: 32px;
+}
+
+.tweet-container {
+  width: 100%;
 }
 
 .tweet-header {
   display: flex;
   justify-content: space-between;
+  font-size: 10px;
+}
+
+.text {
+  margin-top: 3px;
+  font-size: 12px;
 }
 </style>
 
