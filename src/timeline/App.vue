@@ -1,23 +1,12 @@
 <template>
   <div id="app">
     <div>Esc: close window</div>
-    <div class="tweet" v-for="tw in tweets">
-      <div class="profile-img"><img v-bind:src="tw.user.profile_image_url_https"></div>
-      <div class="tweet-container">
-        <div class="tweet-header">
-          <User :user="tw.user"/>
-          <div class="time">{{ tw.created_at }}</div>
-        </div>
-        <div class="text">
-        {{ tw.text }}
-        </div>
-      </div>
-    </div>
+    <Tweet v-for="tw in tweets" :key="tw.id" :tweet="tw"/>
   </div>
 </template>
 
 <script>
-import User from "./User.vue"
+import Tweet from "./Tweet.vue"
 
 var data = {
   msg: 'Timeline Viewer',
@@ -29,7 +18,7 @@ export default {
     return data;
   },
   components: {
-    User,
+    Tweet,
   },
   mounted () {
       firefox57_workaround_for_blank_panel();
@@ -99,33 +88,6 @@ body {
 
 h1, h2 {
   font-weight: normal;
-}
-
-.tweet {
-  text-align: left;
-  margin-top: 5px;
-  background-color: #ffffff;
-  display: flex;
-}
-
-.profile-img img {
-  width: 32px;
-  height: 32px;
-}
-
-.tweet-container {
-  width: 100%;
-}
-
-.tweet-header {
-  display: flex;
-  justify-content: space-between;
-  font-size: 10px;
-}
-
-.text {
-  margin-top: 3px;
-  font-size: 12px;
 }
 </style>
 
