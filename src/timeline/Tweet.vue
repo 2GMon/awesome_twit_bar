@@ -1,5 +1,5 @@
 <template>
-  <div class="tweet">
+  <div :id="tweetStyleId" class="tweet" v-bind:class="{ selected: isSelected }">
     <div class="profile-img"><img v-bind:src="tweet.user.profile_image_url_https"></div>
     <div class="tweet-container">
       <div class="tweet-header">
@@ -21,10 +21,22 @@ export default {
     tweet: {
       type: Object,
       required: true,
+    },
+    selectedId: {
+      type: Number,
+      required: true,
     }
   },
   components: {
     User,
+  },
+  computed: {
+    isSelected: function() {
+      return this.tweet.id == this.selectedId;
+    },
+    tweetStyleId: function() {
+      return "tweet-" + this.tweet.id;
+    },
   }
 }
 </script>
@@ -35,6 +47,10 @@ export default {
   margin-top: 5px;
   background-color: #ffffff;
   display: flex;
+}
+
+.tweet.selected {
+  border: 2px solid #000000;
 }
 
 .profile-img img {

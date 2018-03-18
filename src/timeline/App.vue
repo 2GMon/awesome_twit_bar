@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <div>Esc: close window</div>
-    <Tweet v-for="tw in tweets" :key="tw.id" :tweet="tw"/>
+    <div>Esc: close window, j: select next tweet, k: select previous tweet</div>
+    <Tweet v-for="tw in tweets" :key="tw.id" :tweet="tw" :selectedId="selectedId"/>
   </div>
 </template>
 
@@ -10,7 +10,9 @@ import Tweet from "./Tweet.vue"
 
 var data = {
   msg: 'Timeline Viewer',
-  tweets: []
+  tweets: [],
+  selectedIdx: 0,
+  selectedId: 0,
 };
 export default {
   name: 'app',
@@ -45,6 +47,8 @@ function firefox57_workaround_for_blank_panel () {
 }
 
 function handleHomeTimelineResponse(message) {
+  data.selectedIdx = 0;
+  data.selectedId = message.data[data.selectedIdx].id;
   data.tweets = message.data;
 }
 
@@ -71,8 +75,45 @@ function addKeyboardEventListener() {
 
     if (keyName === 'Escape') {
       closeWindow();
+    } else if (keyName === 'j') {
+      selectNextTweet();
+      scrollTimelineViewer();
+    } else if (keyName === 'k') {
+      selectPreviousTweet();
+      scrollTimelineViewer();
     }
+
   }, false);
+}
+
+function selectNextTweet() {
+  if (data.selectedIdx < data.tweets.length - 1) {
+    data.selectedIdx += 1;
+    data.selectedId = data.tweets[data.selectedIdx].id;
+  }
+}
+
+function selectPreviousTweet() {
+  if (data.selectedIdx > 0) {
+    data.selectedIdx -= 1;
+    data.selectedId = data.tweets[data.selectedIdx].id;
+  }
+}
+
+function scrollTimelineViewer() {
+  let tweetElem = document.getElementById("tweet-" + data.selectedId);
+  let tweetRect = tweetElem.getBoundingClientRect() ;
+
+  if (tweetRect.top < 0) {
+    window.scrollBy(0, tweetRect.top - 5);
+  }
+  if (tweetRect.top + tweetRect.height > window.innerHeight) {
+    window.scrollBy(0, tweetRect.top + tweetRect.height - window.innerHeight + 5);
+  }
+
+  if (data.selectedIdx == 0) {
+    window.scroll(0, 0);
+  }
 }
 </script>
 
