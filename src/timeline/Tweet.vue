@@ -7,7 +7,7 @@
         <div class="time">{{ tweet.created_at }}</div>
       </div>
       <div class="text">
-      {{ tweet.text }}
+      <span v-html="tweetText"></span>
       </div>
     </div>
   </div>
@@ -37,7 +37,39 @@ export default {
     tweetStyleId: function() {
       return "tweet-" + this.tweet.id;
     },
+    tweetText: function() {
+      let hashtags = this.tweet.entities.hashtags;
+      let userMentions = this.tweet.entities.user_mentions;
+      let urls = this.tweet.entities.urls;
+      let media = [];
+      if (this.tweet.entities.media) {
+        media = this.tweet.entities.media;
+      }
+
+      let entities = hashtags.concat(userMentions).concat(urls).concat(media).sort(function(a, b) {
+        return b.indices[0] - a.indices[0];
+      });
+
+      let text = this.tweet.text;
+      entities.forEach(function(entity) {
+        text = insertStr(text, entity.indices[1], "</a>");
+        if (entities.media_url_https) {
+          text = insertStr(text, entity.indices[0], "<a href=\"" + entity.media_url_https + "\">");
+        } else if (entity.expanded_url) {
+          text = insertStr(text, entity.indices[0], "<a href=\"" + entity.expanded_url + "\">");
+        } else if (entity.screen_name) {
+          text = insertStr(text, entity.indices[0], "<a href=\"https://twitter.com/" + entity.screen_name + "\">");
+        } else if (entity.text) {
+          text = insertStr(text, entity.indices[0], "<a href=\"https://twitter.com/hashtag/" + entity.text + "\">");
+        }
+      })
+      return text;
+    },
   }
+}
+
+function insertStr(str, index, insert) {
+  return str.slice(0, index) + insert + str.slice(index, str.length);
 }
 </script>
 
@@ -71,5 +103,9 @@ export default {
 .text {
   margin-top: 3px;
   font-size: 12px;
+}
+
+a, a:hover, a:focus, a:active {
+  color: #0084B4;
 }
 </style>
