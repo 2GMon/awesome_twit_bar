@@ -1,6 +1,10 @@
 <template>
   <div id="app">
-    <div>Esc: close window, j: select next tweet, k: select previous tweet</div>
+    <div class="shortcut-container">
+      <div><span class="key">Esc</span>: close window</div>
+      <div><span class="key">j</span>: select next tweet</div>
+      <div><span class="key">k</span>: select previous tweet</div>
+    </div>
     <Tweet v-for="tw in tweets" :key="tw.id" :tweet="tw" :selectedId="selectedId"/>
   </div>
 </template>
@@ -129,6 +133,22 @@ body {
 
 h1, h2 {
   font-weight: normal;
+}
+
+.shortcut-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.key {
+  margin: 0 3px;
+  padding: 0 5px;
+  border-width: 1px 2px 2px 1px;
+  border-style: solid;
+  border-color: #999;
+  background-color: #F5F5F5;
+  font-family: monospace;
 }
 </style>
 
