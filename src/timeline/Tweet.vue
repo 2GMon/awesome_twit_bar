@@ -1,9 +1,9 @@
 <template>
   <div :id="tweetStyleId" class="tweet" v-bind:class="{ selected: isSelected }">
-    <div class="profile-img"><img v-bind:src="tweet.user.profile_image_url_https"></div>
+    <div class="profile-img"><img v-bind:src="profileImg"></div>
     <div class="tweet-container">
       <div class="tweet-header">
-        <User :user="tweet.user"/>
+        <User :tweet="tweet"/>
         <div class="time">{{ tweet.created_at }}</div>
       </div>
       <div class="text">
@@ -37,20 +37,32 @@ export default {
     tweetStyleId: function() {
       return "tweet-" + this.tweet.id;
     },
+    profileImg: function() {
+      if (this.tweet.retweeted_status) {
+        return this.tweet.retweeted_status.user.profile_image_url_https;
+      } else {
+        return this.tweet.user.profile_image_url_https;
+      }
+    },
     tweetText: function() {
-      let hashtags = this.tweet.entities.hashtags;
-      let userMentions = this.tweet.entities.user_mentions;
-      let urls = this.tweet.entities.urls;
+      let tweet = this.tweet;
+      if (this.tweet.retweeted_status) {
+        tweet = this.tweet.retweeted_status;
+      }
+
+      let hashtags = tweet.entities.hashtags;
+      let userMentions = tweet.entities.user_mentions;
+      let urls = tweet.entities.urls;
       let media = [];
-      if (this.tweet.entities.media) {
-        media = this.tweet.entities.media;
+      if (tweet.entities.media) {
+        media = tweet.entities.media;
       }
 
       let entities = hashtags.concat(userMentions).concat(urls).concat(media).sort(function(a, b) {
         return b.indices[0] - a.indices[0];
       });
 
-      let text = this.tweet.text;
+      let text = tweet.text;
       entities.forEach(function(entity) {
         text = insertStr(text, entity.indices[1], "</a>");
         if (entities.media_url_https) {
