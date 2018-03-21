@@ -27,16 +27,22 @@ export default {
   },
   methods: {
     openHashtag: function() {
-      let url = "https://twitter.com/hashtag/" + this.elem.hashtag;
-      browser.tabs.create({url, active: false});
+      if (this.elem.hashtag) {
+        let url = "https://twitter.com/hashtag/" + this.elem.hashtag;
+        browser.tabs.create({url, active: false});
+      }
     },
     openUrl: function() {
-      let url = this.elem.expanded_url;
-      browser.tabs.create({url, active: false});
+      if (this.elem.expanded_url) {
+        let url = this.elem.expanded_url;
+        browser.tabs.create({url, active: false});
+      }
     },
     openProfile: function() {
-      let url = "https://twitter.com/" + this.elem.screen_name;
-      browser.tabs.create({url, active: false});
+      if (this.elem.screen_name) {
+        let url = "https://twitter.com/" + this.elem.screen_name;
+        browser.tabs.create({url, active: false});
+      }
     },
   },
 }

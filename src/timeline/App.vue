@@ -9,6 +9,8 @@
       <div><span class="key">Enter</span>: open tweet</div>
       <div><span class="key">p</span>: open profile</div>
       <div><span class="key">m</span>: open media</div>
+      <div><span class="key">o</span>: open urls</div>
+      <div><span class="key">h</span>: open hashtag</div>
     </div>
     <Tweet v-for="tw in tweets" :key="tw.id_str" :tweet="tw" :selectedId="selectedId" ref="tweet"/>
   </div>
@@ -112,6 +114,10 @@ function addKeyboardEventListener() {
       data.tweetRefs[data.selectedIdx].openProfile();
     } else if (keyName === 'm') {
       data.tweetRefs[data.selectedIdx].openMedia();
+    } else if (keyName === 'o') {
+      data.tweetRefs[data.selectedIdx].openUrl();
+    } else if (keyName === 'h') {
+      data.tweetRefs[data.selectedIdx].openHashtag();
     }
 
   }, false);

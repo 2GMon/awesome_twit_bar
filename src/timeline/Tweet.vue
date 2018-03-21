@@ -8,7 +8,7 @@
       </div>
       <div class="text">
         <span v-for="elem in tweetElems"> 
-          <TweetElement :elem="elem"/>
+          <TweetElement :elem="elem" ref="tweetElement"/>
         </span>
       </div>
       <div class="extended-entities" v-if="tweet.extended_entities">
@@ -103,7 +103,17 @@ export default {
       if (this.$refs.mediaContainer) {
         this.$refs.mediaContainer.openMedia();
       }
-    }
+    },
+    openHashtag: function() {
+      this.$refs.tweetElement.forEach(function(elem) {
+        elem.openHashtag();
+      });
+    },
+    openUrl: function() {
+      this.$refs.tweetElement.forEach(function(elem) {
+        elem.openUrl();
+      });
+    },
   },
 }
 </script>
