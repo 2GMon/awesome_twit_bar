@@ -1,13 +1,13 @@
 <template>
   <div>
-    <img :src="media.media_url_https" :width="size.width" :height="size.height" v-on:click="openMedia(media.media_url_https)"/>
+    <img :src="medium.media_url_https" :width="size.width" :height="size.height" v-on:click="openMedium(medium.media_url_https)"/>
   </div>
 </template>
 
 <script>
 export default {
   props: {
-    media: {
+    medium: {
       type: Object,
       required: true,
     }
@@ -16,8 +16,8 @@ export default {
     size: function() {
       const maxWidth = 96;
       const maxHeight = 64;
-      let width = this.media.sizes.small.w;
-      let height = this.media.sizes.small.h;
+      let width = this.medium.sizes.small.w;
+      let height = this.medium.sizes.small.h;
 
       if (width > maxWidth) {
         height = Math.floor(height * (maxWidth / width));
@@ -31,7 +31,7 @@ export default {
     }
   },
   methods: {
-    openMedia: function(url) {
+    openMedium: function(url) {
       openTab(url);
     },
   },
