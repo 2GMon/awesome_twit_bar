@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img :src="media.media_url_https" :width="size.width" :height="size.height"/>
+    <img :src="media.media_url_https" :width="size.width" :height="size.height" v-on:click="openMedia(media.media_url_https)"/>
   </div>
 </template>
 
@@ -29,7 +29,16 @@ export default {
       }
       return {width: width + "px", height: height + "px"};
     }
-  }
+  },
+  methods: {
+    openMedia: function(url) {
+      openTab(url);
+    },
+  },
+}
+
+function openTab(url) {
+  browser.tabs.create({url, active: false});
 }
 </script>
 
