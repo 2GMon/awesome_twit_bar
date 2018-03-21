@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Awesome Twit Bar",
-  "version": "0.0.1",
+  "version": "0.0.2",
 
   "description": "This add-on allow you to operate twitter from smart location bar",
 
