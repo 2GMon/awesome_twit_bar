@@ -25,20 +25,26 @@ browser.omnibox.onInputEntered.addListener((text, disposition) => {
   switch (text) {
     case "!":
       Tw.getHomeTimeline(homeTimelineCallback);
-      var createData = {
-        type: "detached_panel",
-        url: "timeline.html",
-        width: 600,
-        height: 800
-      };
-      var creating = browser.windows.create(createData);
-      creating.then(onCreated, onError);
+      if (timeline.length != 0) {
+        createTimelineWindow();
+      }
       break;
     default:
       Tw.tweet(text);
       break;
   }
 });
+
+function createTimelineWindow() {
+  var createData = {
+    type: "detached_panel",
+    url: "timeline.html",
+    width: 600,
+    height: 800
+  };
+  var creating = browser.windows.create(createData);
+  creating.then(onCreated, onError);
+}
 
 function openLink(url, disposition) {
   switch (disposition) {
@@ -63,6 +69,8 @@ function onError(error) {
 }
 
 function homeTimelineCallback(e, data, res) {
+  let initialTime = (timeline.length == 0);
+
   if (e) console.error(e);
   let fetched = JSON.parse(data).map(t => {
     t["created_at"] = (new Date(t["created_at"])).toLocaleString();
@@ -73,11 +81,21 @@ function homeTimelineCallback(e, data, res) {
   console.log(timeline);
 
   Tw.latestId = timeline[0].id_str;
+
+  if (initialTime) {
+    createTimelineWindow();
+  }
 }
 
 function handleMessage(request, sender, sendResponse) {
-  console.log("Message from the timeline: request type = " + request.type);
-  sendResponse({data: timeline});
+  console.log("Message received: request type = " + request.type);
+  console.log("sender: ");
+  console.log(sender);
+  switch (request.type) {
+    case "get_home_timeline":
+      sendResponse({data: timeline});
+      break;
+  }
 }
 
 browser.runtime.onMessage.addListener(handleMessage);
