@@ -7,7 +7,9 @@
         <div class="time" v-on:click="openTweet">{{ tweet.created_at }}</div>
       </div>
       <div class="text">
-      <span v-html="tweetText"></span>
+        <span v-for="elem in tweetElems"> 
+          <TweetElement :elem="elem"/>
+        </span>
       </div>
       <div class="extended-entities" v-if="tweet.extended_entities">
         <MediaContainer :media="tweet.extended_entities.media" ref="mediaContainer"/>
@@ -19,6 +21,7 @@
 <script>
 import User from "./User.vue"
 import MediaContainer from "./MediaContainer.vue"
+import TweetElement from "./TweetElement.vue"
 
 export default {
   props: {
@@ -32,7 +35,7 @@ export default {
     }
   },
   components: {
-    User, MediaContainer,
+    User, MediaContainer, TweetElement,
   },
   computed: {
     isSelected: function() {
@@ -48,7 +51,7 @@ export default {
         return this.tweet.user.profile_image_url_https;
       }
     },
-    tweetText: function() {
+    tweetElems: function() {
       let tweet = this.tweet;
       if (this.tweet.retweeted_status) {
         tweet = this.tweet.retweeted_status;
@@ -62,24 +65,29 @@ export default {
         media = tweet.entities.media;
       }
 
+      let elems = [];
       let entities = hashtags.concat(userMentions).concat(urls).concat(media).sort(function(a, b) {
-        return b.indices[0] - a.indices[0];
+        return a.indices[0] - b.indices[0];
       });
-
-      let text = tweet.text;
+      let pos = 0;
       entities.forEach(function(entity) {
-        text = insertStr(text, entity.indices[1], "</a>");
-        if (entities.media_url_https) {
-          text = insertStr(text, entity.indices[0], "<a href=\"" + entity.media_url_https + "\">");
+        elems.push({text: tweet.text.slice(pos, entity.indices[0])});
+        pos = entity.indices[1];
+        let ent = {text: tweet.text.slice(entity.indices[0], entity.indices[1])};
+        if (entity.media_url_https) {
+          ent.media_url_https = entity.media_url_https;
         } else if (entity.expanded_url) {
-          text = insertStr(text, entity.indices[0], "<a href=\"" + entity.expanded_url + "\">");
+          ent.text = entity.expanded_url;
+          ent.expanded_url = entity.expanded_url;
         } else if (entity.screen_name) {
-          text = insertStr(text, entity.indices[0], "<a href=\"https://twitter.com/" + entity.screen_name + "\">");
+          ent.screen_name = entity.screen_name;
         } else if (entity.text) {
-          text = insertStr(text, entity.indices[0], "<a href=\"https://twitter.com/hashtag/" + entity.text + "\">");
+          ent.hashtag = entity.text;
         }
+        elems.push(ent);
       })
-      return text;
+      elems.push({text: tweet.text.slice(pos)});
+      return elems;
     },
   },
   methods: {
@@ -97,10 +105,6 @@ export default {
       }
     }
   },
-}
-
-function insertStr(str, index, insert) {
-  return str.slice(0, index) + insert + str.slice(index, str.length);
 }
 </script>
 
@@ -134,9 +138,5 @@ function insertStr(str, index, insert) {
 .text {
   margin-top: 3px;
   font-size: 12px;
-}
-
-a, a:hover, a:focus, a:active {
-  color: #0084B4;
 }
 </style>
