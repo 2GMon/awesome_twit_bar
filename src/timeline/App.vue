@@ -4,9 +4,11 @@
       <div><span class="key">Esc</span>: close window</div>
       <div><span class="key">j</span>: select next tweet</div>
       <div><span class="key">k</span>: select previous tweet</div>
-      <div><span class="key">Enter</span>: open selected tweet in new tabs</div>
-      <div><span class="key">p</span>: open selected tweet's user profile in new tabs</div>
-      <div><span class="key">m</span>: open selected tweet's media in new tabs</div>
+      <div><span class="key">0</span>: select first tweet</div>
+      <div><span class="key">$</span>: select last tweet</div>
+      <div><span class="key">Enter</span>: open tweet</div>
+      <div><span class="key">p</span>: open profile</div>
+      <div><span class="key">m</span>: open media</div>
     </div>
     <Tweet v-for="tw in tweets" :key="tw.id_str" :tweet="tw" :selectedId="selectedId" ref="tweet"/>
   </div>
@@ -98,6 +100,12 @@ function addKeyboardEventListener() {
     } else if (keyName === 'k') {
       selectPreviousTweet();
       scrollTimelineViewer();
+    } else if (keyName === '0') {
+      selectFirstTweet();
+      scrollTimelineViewer();
+    } else if (keyName === '$') {
+      selectLastTweet();
+      scrollTimelineViewer();
     } else if (keyName === 'Enter') {
       data.tweetRefs[data.selectedIdx].openTweet();
     } else if (keyName === 'p') {
@@ -121,6 +129,16 @@ function selectPreviousTweet() {
     data.selectedIdx -= 1;
     data.selectedId = data.tweets[data.selectedIdx].id;
   }
+}
+
+function selectFirstTweet() {
+  data.selectedIdx = 0;
+  data.selectedId = data.tweets[data.selectedIdx].id;
+}
+
+function selectLastTweet() {
+  data.selectedIdx = data.tweets.length - 1;
+  data.selectedId = data.tweets[data.selectedIdx].id;
 }
 
 function scrollTimelineViewer() {
