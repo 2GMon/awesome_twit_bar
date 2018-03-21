@@ -12,7 +12,7 @@
       <div><span class="key">o</span>: open urls</div>
       <div><span class="key">h</span>: open hashtag</div>
     </div>
-    <Tweet v-for="tw in tweets" :key="tw.id_str" :tweet="tw" :selectedId="selectedId" ref="tweet"/>
+    <Tweet v-for="tw in tweets" :key="tw.id_str" :tweet="tw" :selectedId="selectedId" ref="tweet" v-on:selectedTweet="selectTweet"/>
   </div>
 </template>
 
@@ -46,6 +46,15 @@ export default {
   methods: {
     openMedia: function() {
       console.log("openMedia in TimelineViewer");
+    },
+    selectTweet: function(payload) {
+      console.log("selectTweet: id = " + payload.id);
+      for (let i = 0; i < this.tweets.length; i++) {
+        if (this.tweets[i].id == payload.id) {
+          this.selectedIdx = i;
+          this.selectedId = this.tweets[this.selectedIdx].id;
+        }
+      }
     }
   },
 };

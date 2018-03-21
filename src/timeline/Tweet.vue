@@ -1,5 +1,5 @@
 <template>
-  <div :id="tweetStyleId" class="tweet" v-bind:class="{ selected: isSelected }">
+  <div :id="tweetStyleId" class="tweet" v-bind:class="{ selected: isSelected }" v-on:click="selectTweet">
     <div class="profile-img" v-on:click="openProfile"><img v-bind:src="profileImg"></div>
     <div class="tweet-container">
       <div class="tweet-header">
@@ -91,6 +91,9 @@ export default {
     },
   },
   methods: {
+    selectTweet: function() {
+      this.$emit('selectedTweet', { id: this.tweet.id })
+    },
     openTweet: function() {
       let url = "https://twitter.com/" + this.tweet.user.screen_name + "/status/" + this.tweet.id_str;
       browser.tabs.create({url, active: false});
