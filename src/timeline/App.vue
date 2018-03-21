@@ -4,6 +4,7 @@
       <div><span class="key">Esc</span>: close window</div>
       <div><span class="key">j</span>: select next tweet</div>
       <div><span class="key">k</span>: select previous tweet</div>
+      <div><span class="key">p</span>: open selected tweet's user profile in new tabs</div>
       <div><span class="key">m</span>: open selected tweet's media in new tabs</div>
     </div>
     <Tweet v-for="tw in tweets" :key="tw.id_str" :tweet="tw" :selectedId="selectedId" ref="tweet"/>
@@ -96,6 +97,8 @@ function addKeyboardEventListener() {
     } else if (keyName === 'k') {
       selectPreviousTweet();
       scrollTimelineViewer();
+    } else if (keyName === 'p') {
+      data.tweetRefs[data.selectedIdx].openProfile();
     } else if (keyName === 'm') {
       data.tweetRefs[data.selectedIdx].openMedia();
     }
