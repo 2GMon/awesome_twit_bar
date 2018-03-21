@@ -4,7 +4,7 @@
     <div class="tweet-container">
       <div class="tweet-header">
         <User :tweet="tweet"/>
-        <div class="time">{{ tweet.created_at }}</div>
+        <div class="time" v-on:click="openTweet">{{ tweet.created_at }}</div>
       </div>
       <div class="text">
       <span v-html="tweetText"></span>
@@ -83,6 +83,10 @@ export default {
     },
   },
   methods: {
+    openTweet: function() {
+      let url = "https://twitter.com/" + this.tweet.user.screen_name + "/status/" + this.tweet.id_str;
+      browser.tabs.create({url, active: false});
+    },
     openProfile: function() {
       let url = "https://twitter.com/" + this.tweet.user.screen_name;
       browser.tabs.create({url, active: false});
