@@ -120,6 +120,10 @@ export default {
   border: 2px solid #000000;
 }
 
+.profile-img {
+  cursor: pointer;
+}
+
 .profile-img img {
   width: 32px;
   height: 32px;
@@ -133,6 +137,10 @@ export default {
   display: flex;
   justify-content: space-between;
   font-size: 10px;
+}
+
+.time {
+  cursor: pointer;
 }
 
 .text {

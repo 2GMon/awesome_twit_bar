@@ -43,4 +43,7 @@ function openTab(url) {
 </script>
 
 <style>
+img {
+  cursor: pointer;
+}
 </style>
