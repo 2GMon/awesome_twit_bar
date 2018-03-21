@@ -9,12 +9,20 @@
       <div class="text">
       <span v-html="tweetText"></span>
       </div>
+      <div class="extended-entities" v-if="tweet.extended_entities">
+        <div class="media-container">
+          <div class="media" v-for="media in tweet.extended_entities.media">
+            <Media :media="media"/>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import User from "./User.vue"
+import Media from "./Media.vue"
 
 export default {
   props: {
@@ -28,7 +36,7 @@ export default {
     }
   },
   components: {
-    User,
+    User, Media,
   },
   computed: {
     isSelected: function() {
@@ -119,5 +127,13 @@ function insertStr(str, index, insert) {
 
 a, a:hover, a:focus, a:active {
   color: #0084B4;
+}
+
+.media-container {
+  display: flex;
+}
+
+.media {
+  margin-left: 10px;
 }
 </style>
