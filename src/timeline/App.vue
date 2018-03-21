@@ -4,8 +4,9 @@
       <div><span class="key">Esc</span>: close window</div>
       <div><span class="key">j</span>: select next tweet</div>
       <div><span class="key">k</span>: select previous tweet</div>
+      <div><span class="key">m</span>: open selected tweet's media in new tabs</div>
     </div>
-    <Tweet v-for="tw in tweets" :key="tw.id_str" :tweet="tw" :selectedId="selectedId"/>
+    <Tweet v-for="tw in tweets" :key="tw.id_str" :tweet="tw" :selectedId="selectedId" ref="tweet"/>
   </div>
 </template>
 
@@ -17,6 +18,7 @@ var data = {
   tweets: [],
   selectedIdx: 0,
   selectedId: 0,
+  tweetRefs: [],
 };
 export default {
   name: 'app',
@@ -31,7 +33,16 @@ export default {
       getHomeTimeline();
 
       addKeyboardEventListener();
-  }}
+  },
+  updated () {
+    this.tweetRefs = this.$refs.tweet;
+  },
+  methods: {
+    openMedia: function() {
+      console.log("openMedia in TimelineViewer");
+    }
+  },
+};
 
 function firefox57_workaround_for_blank_panel () {
   // browser. windows. create () displays blank windows (panel, popup or detached_panel)
@@ -85,6 +96,8 @@ function addKeyboardEventListener() {
     } else if (keyName === 'k') {
       selectPreviousTweet();
       scrollTimelineViewer();
+    } else if (keyName === 'm') {
+      data.tweetRefs[data.selectedIdx].openMedia();
     }
 
   }, false);

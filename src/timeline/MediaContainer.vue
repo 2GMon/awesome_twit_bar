@@ -1,7 +1,7 @@
 <template>
   <div class="media-container">
     <div class="medium" v-for="medium in media">
-      <Medium :medium="medium"/>
+      <Medium :medium="medium" ref="medium"/>
     </div>
   </div>
 </template>
@@ -18,6 +18,13 @@ export default {
   },
   components: {
     Medium,
+  },
+  methods: {
+    openMedia: function() {
+      this.$refs.medium.forEach(function(medium) {
+        medium.openMedium();
+      });
+    },
   },
 }
 </script>

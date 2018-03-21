@@ -10,7 +10,7 @@
       <span v-html="tweetText"></span>
       </div>
       <div class="extended-entities" v-if="tweet.extended_entities">
-        <MediaContainer :media="tweet.extended_entities.media"/>
+        <MediaContainer :media="tweet.extended_entities.media" ref="mediaContainer"/>
       </div>
     </div>
   </div>
@@ -81,7 +81,14 @@ export default {
       })
       return text;
     },
-  }
+  },
+  methods: {
+    openMedia: function() {
+      if (this.$refs.mediaContainer) {
+        this.$refs.mediaContainer.openMedia();
+      }
+    }
+  },
 }
 
 function insertStr(str, index, insert) {

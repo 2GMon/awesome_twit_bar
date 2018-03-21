@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img :src="medium.media_url_https" :width="size.width" :height="size.height" v-on:click="openMedium(medium.media_url_https)"/>
+    <img :src="medium.media_url_https" :width="size.width" :height="size.height" v-on:click="openMedium"/>
   </div>
 </template>
 
@@ -31,8 +31,8 @@ export default {
     }
   },
   methods: {
-    openMedium: function(url) {
-      openTab(url);
+    openMedium: function() {
+      openTab(this.medium.media_url_https);
     },
   },
 }
