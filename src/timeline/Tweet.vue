@@ -1,6 +1,6 @@
 <template>
   <div :id="tweetStyleId" class="tweet" v-bind:class="{ selected: isSelected }">
-    <div class="profile-img"><img v-bind:src="profileImg"></div>
+    <div class="profile-img" v-on:click="openProfile"><img v-bind:src="profileImg"></div>
     <div class="tweet-container">
       <div class="tweet-header">
         <User :tweet="tweet"/>
@@ -83,6 +83,10 @@ export default {
     },
   },
   methods: {
+    openProfile: function() {
+      let url = "https://twitter.com/" + this.tweet.user.screen_name;
+      browser.tabs.create({url, active: false});
+    },
     openMedia: function() {
       if (this.$refs.mediaContainer) {
         this.$refs.mediaContainer.openMedia();
