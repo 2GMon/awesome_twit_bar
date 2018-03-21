@@ -72,7 +72,7 @@ function homeTimelineCallback(e, data, res) {
   console.log(fetched);
   console.log(timeline);
 
-  Tw.latestId = timeline[0].id;
+  Tw.latestId = timeline[0].id_str;
 }
 
 function handleMessage(request, sender, sendResponse) {

@@ -5,7 +5,7 @@
       <div><span class="key">j</span>: select next tweet</div>
       <div><span class="key">k</span>: select previous tweet</div>
     </div>
-    <Tweet v-for="tw in tweets" :key="tw.id" :tweet="tw" :selectedId="selectedId"/>
+    <Tweet v-for="tw in tweets" :key="tw.id_str" :tweet="tw" :selectedId="selectedId"/>
   </div>
 </template>
 
