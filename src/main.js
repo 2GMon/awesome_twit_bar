@@ -24,10 +24,7 @@ browser.omnibox.onInputEntered.addListener((text, disposition) => {
   text = text.trim();
   switch (text) {
     case "!":
-      Tw.getHomeTimeline(homeTimelineCallback);
-      if (timeline.length != 0) {
-        createTimelineWindow();
-      }
+      createTimelineWindow();
       break;
     default:
       Tw.tweet(text);
@@ -69,8 +66,6 @@ function onError(error) {
 }
 
 function homeTimelineCallback(e, data, res) {
-  let initialTime = (timeline.length == 0);
-
   if (e) console.error(e);
   let fetched = JSON.parse(data).map(t => {
     t["created_at"] = (new Date(t["created_at"])).toLocaleString();
@@ -81,10 +76,6 @@ function homeTimelineCallback(e, data, res) {
   console.log(timeline);
 
   Tw.latestId = timeline[0].id_str;
-
-  if (initialTime) {
-    createTimelineWindow();
-  }
 }
 
 function handleMessage(request, sender, sendResponse) {
@@ -99,3 +90,8 @@ function handleMessage(request, sender, sendResponse) {
 }
 
 browser.runtime.onMessage.addListener(handleMessage);
+
+Tw.getHomeTimeline(homeTimelineCallback);
+setInterval(function() {
+  Tw.getHomeTimeline(homeTimelineCallback);
+}, 1000 * 120);
