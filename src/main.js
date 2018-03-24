@@ -86,6 +86,9 @@ function handleMessage(request, sender, sendResponse) {
     case "get_home_timeline":
       sendResponse({data: timeline});
       break;
+    case "api_key_initialized":
+      Tw.getHomeTimeline(homeTimelineCallback);
+      break;
   }
 }
 

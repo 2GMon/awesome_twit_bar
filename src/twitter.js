@@ -18,6 +18,11 @@ class Twitter {
   }
 
   getHomeTimeline(callback, count = 50) {
+    if (!localStorage.getItem('atw.accessTokenKey') ||
+      !localStorage.getItem('atw.accessTokenSecret')) {
+      console.log("haven't been authorized");
+      return;
+    }
     const url = Twitter.API_ENDPOINT + 'statuses/home_timeline.json';
     let params = "?count=" + count;
     if(this.latestId != null) {

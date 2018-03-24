@@ -60,6 +60,9 @@ export default {
         localStorage.setItem('atw.accessTokenSecret', data.accessTokenSecret);
         console.log(data.accessTokenKey);
         console.log(data.accessTokenSecret);
+        browser.runtime.sendMessage({
+          type: "api_key_initialized"
+        });
       });
       localStorage.setItem('atw.authorized', true);
       this.authorized = true;
