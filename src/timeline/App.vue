@@ -23,7 +23,7 @@ var data = {
   msg: 'Timeline Viewer',
   tweets: [],
   selectedIdx: 0,
-  selectedId: 0,
+  selectedId: '0',
   tweetRefs: [],
 };
 export default {
@@ -39,6 +39,9 @@ export default {
       getHomeTimeline();
 
       addKeyboardEventListener();
+      setInterval(function() {
+        getHomeTimeline();
+      }, 5000);
   },
   updated () {
     this.tweetRefs = this.$refs.tweet;
@@ -52,7 +55,7 @@ export default {
       for (let i = 0; i < this.tweets.length; i++) {
         if (this.tweets[i].id == payload.id) {
           this.selectedIdx = i;
-          this.selectedId = this.tweets[this.selectedIdx].id;
+          this.selectedId = this.tweets[this.selectedIdx].id_str;
         }
       }
     }
@@ -77,9 +80,22 @@ function firefox57_workaround_for_blank_panel () {
 }
 
 function handleHomeTimelineResponse(message) {
-  data.selectedIdx = 0;
-  data.selectedId = message.data[data.selectedIdx].id;
   data.tweets = message.data;
+  var i = 0
+  for (i = 0; i < data.tweets.length; i++) {
+    if (data.tweets[i].id_str == data.selectedId) {
+      break
+    }
+  }
+  if (i == data.tweets.length) {
+    data.selectedIdx = 0;
+  } else {
+    data.selectedIdx = i;
+  }
+  data.selectedId = message.data[data.selectedIdx].id_str;
+  setTimeout(function() {
+    scrollTimelineViewer();
+  }, 200);
 }
 
 function handleError(error) {
@@ -135,25 +151,25 @@ function addKeyboardEventListener() {
 function selectNextTweet() {
   if (data.selectedIdx < data.tweets.length - 1) {
     data.selectedIdx += 1;
-    data.selectedId = data.tweets[data.selectedIdx].id;
+    data.selectedId = data.tweets[data.selectedIdx].id_str;
   }
 }
 
 function selectPreviousTweet() {
   if (data.selectedIdx > 0) {
     data.selectedIdx -= 1;
-    data.selectedId = data.tweets[data.selectedIdx].id;
+    data.selectedId = data.tweets[data.selectedIdx].id_str;
   }
 }
 
 function selectFirstTweet() {
   data.selectedIdx = 0;
-  data.selectedId = data.tweets[data.selectedIdx].id;
+  data.selectedId = data.tweets[data.selectedIdx].id_str;
 }
 
 function selectLastTweet() {
   data.selectedIdx = data.tweets.length - 1;
-  data.selectedId = data.tweets[data.selectedIdx].id;
+  data.selectedId = data.tweets[data.selectedIdx].id_str;
 }
 
 function scrollTimelineViewer() {

@@ -30,7 +30,7 @@ export default {
       required: true,
     },
     selectedId: {
-      type: Number,
+      type: String,
       required: true,
     }
   },
@@ -39,10 +39,10 @@ export default {
   },
   computed: {
     isSelected: function() {
-      return this.tweet.id == this.selectedId;
+      return this.tweet.id_str == this.selectedId;
     },
     tweetStyleId: function() {
-      return "tweet-" + this.tweet.id;
+      return "tweet-" + this.tweet.id_str;
     },
     profileImg: function() {
       if (this.tweet.retweeted_status) {
