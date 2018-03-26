@@ -35,13 +35,18 @@ class Twitter {
       callback);
   }
 
-  tweet(text) {
+  tweet(text, replyToId = undefined) {
     const url = Twitter.API_ENDPOINT + 'statuses/update.json';
+    let params = {"status": text };
+    if (replyToId) {
+      console.log("hoge");
+      params["in_reply_to_status_id"] = replyToId;
+    }
     this.Tw.post(
       url,
       localStorage.getItem('atw.accessTokenKey'),
       localStorage.getItem('atw.accessTokenSecret'),
-      {"status": text},
+      params,
       function(error, data) {
         if(error) {
           console.log(error);

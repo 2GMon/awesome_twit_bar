@@ -1,9 +1,13 @@
 'use strict';
 
-import { getMatchingCommand } from './cmd';
+import { getMatchingCommand,
+  getMatchingScreenName,
+  getMatchingTweet
+} from './cmd';
 import { Tw } from './twitter';
 
 var timeline = [];
+var mentionsTimeline = [];
 
 browser.omnibox.setDefaultSuggestion({
   description: `Tweet (e.g. "hello world")`
@@ -11,24 +15,33 @@ browser.omnibox.setDefaultSuggestion({
 
 // Update the suggestions whenever the input is changed.
 browser.omnibox.onInputChanged.addListener((text, addSuggestions) => {
+  console.log("commands: " + text);
   if (text[0] == '!') {
-    console.log("commands: " + text);
-    addSuggestions(getMatchingCommand(text));
-  } else {
-    console.log("tweet: " + text);
+    if (text[1] == '@') {
+      if (text.indexOf('#') > 2) {
+        addSuggestions(getMatchingTweet(timeline, text));
+      } else {
+        addSuggestions(getMatchingScreenName(timeline, text));
+      }
+    } else {
+      console.log("commands: " + text);
+      addSuggestions(getMatchingCommand(text));
+    }
   }
 });
 
 // Open the page based on how the user clicks on a suggestion.
 browser.omnibox.onInputEntered.addListener((text, disposition) => {
   text = text.trim();
-  switch (text) {
-    case "!":
-      createTimelineWindow();
-      break;
-    default:
-      Tw.tweet(text);
-      break;
+  if (text == "!") {
+    createTimelineWindow();
+  } else if (text[0] == "!" && text[1] == "@") {
+    var screen_name = text.slice(2, text.indexOf('#'));
+    var statusId = text.slice(text.indexOf('#') + 1);
+    var text = '@' + screen_name + ' ' + text.slice(text.indexOf(' ') + 1);
+    Tw.tweet(text, statusId);
+  } else {
+    Tw.tweet(text);
   }
 });
 
@@ -76,6 +89,17 @@ function homeTimelineCallback(e, data, res) {
   console.log(timeline);
 
   Tw.latestId = timeline[0].id_str;
+}
+
+function meintionsTimelineCallback(e, data, res) {
+  if (e) console.error(e);
+  let fetched = JSON.parse(data).map(t => {
+    t["created_at"] = (new Date(t["created_at"])).toLocaleString();
+    return t;
+  });
+  mentionsTimeline = fetched.concat(mentionsTimeline).slice(0, 100);
+  console.log(fetched);
+  console.log(mentionsTimeline);
 }
 
 function handleMessage(request, sender, sendResponse) {

@@ -9,11 +9,17 @@ Awesome Twit Bar pays respect to [Twittperator](https://github.com/vimpr/vimpera
 
 ## Basic Usage
 
-typing command in the smart location bar.
+* authorize with add-on's preferences page.
+* typing command in the smart location bar.
 
 ### Show
 
 * `atw !` Shows your timeline.
+
+### Tweet
+
+* `atw hello` Tweet `hello`
+* `atw !@screen_name#tweet_id hello` reply to `tweet_id` `hello`
 
 ## Development builds
 
