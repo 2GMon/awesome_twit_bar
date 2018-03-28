@@ -44,7 +44,16 @@ export default {
       }, 5000);
   },
   updated () {
-    this.tweetRefs = this.$refs.tweet;
+    if (this.tweetRefs.length != this.tweets.length) {
+      let self = this;
+      this.tweetRefs = this.tweets.map(function(tw) {
+         for (let i = 0; i < self.$refs.tweet.length; i++) {
+          if (tw.id_str == self.$refs.tweet[i].tweet.id_str) {
+            return self.$refs.tweet[i];
+          }
+         }
+      });
+    }
   },
   methods: {
     openMedia: function() {
