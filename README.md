@@ -23,16 +23,18 @@ Awesome Twit Bar pays respect to [Twittperator](https://github.com/vimpr/vimpera
 
 ## Development builds
 
-with `node v8.14.0` and `npm v6.4.1`
+with `node v8.14.0` and `yarn v1.12.3`
 
 ```
-npm i -D
+yarn install
+npm run clean
 npm run dev
 ```
 
 ## Production builds
 
 ```
-npm i -D
+yarn install
+npm run clean
 npm run build
 ```
