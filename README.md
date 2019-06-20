@@ -23,6 +23,8 @@ Awesome Twit Bar pays respect to [Twittperator](https://github.com/vimpr/vimpera
 
 ## Development builds
 
+with `node v8.14.0` and `npm v6.4.1`
+
 ```
 npm i -D
 npm run dev
